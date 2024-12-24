@@ -37,4 +37,21 @@ void AAuraPlayerController::SetupInputComponent()
 	Super::SetupInputComponent();
 	
 	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
+	EnhancedInputComponent->BindAction(MoveAction,ETriggerEvent::Triggered,this,&AAuraPlayerController::Move);
+}
+
+void AAuraPlayerController::Move(const FInputActionValue& InputActionValue) 
+{
+	const FVector2D InputAxisVector = InputActionValue.Get<FVector2D>();
+	const FRotator Rotator = GetControlRotation();
+	const FRotator YawRotator(0,Rotator.Yaw,0);
+
+	const FVector ForwardDirection = FRotationMatrix(YawRotator).GetUnitAxis(EAxis::X);
+	const FVector RightDirection = FRotationMatrix(Rotator).GetUnitAxis(EAxis::Y);
+	if (APawn* ControlledPawn = GetPawn<APawn>())
+	{
+		ControlledPawn->AddMovementInput(ForwardDirection,InputAxisVector.X);
+		ControlledPawn->AddMovementInput(RightDirection,InputAxisVector.Y);
+	}
+	
 }
