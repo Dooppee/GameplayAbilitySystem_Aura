@@ -8,6 +8,7 @@
 
 AAuraPlayerController::AAuraPlayerController()
 {
+	//在这里开启了网络复制
 	bReplicates = true;
 }
 
@@ -22,7 +23,7 @@ void AAuraPlayerController::CursorTrace()
 	GetHitResultUnderCursor(ECollisionChannel::ECC_Visibility,false,CursorResult);
 	if (!CursorResult.bBlockingHit)return;
 	LastEnemy = ThisEnemy;
-	ThisEnemy = Cast<IEnemyInterface>(CursorResult.GetActor());
+	ThisEnemy = CursorResult.GetActor();
 	/**
 	 *  Line trace from cursor. There have several scenery.
 	 *  A. LastEnemy = null && ThisEnemy = null
@@ -72,6 +73,7 @@ void AAuraPlayerController::CursorTrace()
 void AAuraPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	ConsoleCommand("showdebug AbilitySystem", true);
 	check(AuraContext);
 	//玩家子系统;
 	UEnhancedInputLocalPlayerSubsystem* Subsystem =
@@ -112,4 +114,5 @@ void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)
 		ControlledPawn->AddMovementInput(ForwardDirection,InputAxisVector.Y);
 		ControlledPawn->AddMovementInput(RightDirection,InputAxisVector.X);
 	}
+	
 }

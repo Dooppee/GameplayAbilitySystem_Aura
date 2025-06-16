@@ -17,6 +17,12 @@ AEnemyCharacter::AEnemyCharacter()
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 }
+void AEnemyCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	InitAbilityActorInfo();
+}
+
 
 void AEnemyCharacter::HighLightActor()
 {
@@ -32,8 +38,8 @@ void AEnemyCharacter::UnHighLightActor()
     Weapon->SetRenderCustomDepth(false);
 }
 
-void AEnemyCharacter::BeginPlay()
+void AEnemyCharacter::InitAbilityActorInfo()
 {
-	Super::BeginPlay();
 	AbilitySystemComponent->InitAbilityActorInfo(this,this);
 }
+

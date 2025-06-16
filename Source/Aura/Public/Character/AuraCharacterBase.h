@@ -21,7 +21,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
-	UAttributeSet* GetAttributeSet()const{return AttributeSet;};
+	UAttributeSet* GetAttributeSet()const{return AttributeSet.Get();};
 public:	
 	virtual void Tick(float DeltaTime) override;
 	UPROPERTY(EditAnywhere,Category="Combat")
@@ -31,4 +31,5 @@ protected:
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
+	virtual void InitAbilityActorInfo();
 };
